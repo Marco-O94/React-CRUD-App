@@ -1,4 +1,5 @@
 import { useState } from "react";
+import useBooksContext from '../hooks/use-books-context';
 
 function BookEdit({ book, onSubmit }) {
   // Everytime we create an input, we have to track it with State System
@@ -6,6 +7,7 @@ function BookEdit({ book, onSubmit }) {
       what we're really wanting to be thinking of is our piece of state that controls it */
   const [title, setTitle] = useState(book.title); // Use default value of state
 
+  const { editBookById } = useBooksContext(); // It's like PiniaJS
   // Handle every input change on title input
   const handleChange = (event) => {
     setTitle(event.target.value);
@@ -14,7 +16,8 @@ function BookEdit({ book, onSubmit }) {
   const handleSubmit = (event) => {
     // We have to prevent form behaviour
     event.preventDefault();
-    onSubmit(book.id, title);
+    onSubmit();
+    editBookById(book.id, title);
   };
 
   return (
@@ -29,3 +32,4 @@ function BookEdit({ book, onSubmit }) {
 }
 
 export default BookEdit;
+

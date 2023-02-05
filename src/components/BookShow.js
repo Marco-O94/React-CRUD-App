@@ -1,11 +1,13 @@
 import { useState } from "react";
 import BookEdit from "./BookEdit";
+import useBooksContext from '../hooks/use-books-context';
 
-function BookShow({ book, onDelete, onEdit }) {
+function BookShow({ book }) {
+  const { deleteBookById } = useBooksContext();
   const [showEdit, setShowEdit] = useState(false);
   // HandleDeleteClick Function to manage parent function and delete book by id
   const handleDeleteClick = () => {
-    onDelete(book.id);
+    deleteBookById(book.id);
   };
   // Function to handle edit click and on click fire the Toggle function
   const handleEditClick = () => {
@@ -32,10 +34,11 @@ function BookShow({ book, onDelete, onEdit }) {
 
    */
   // BEST SOLUTION !!
-  const handleSubmit = (id, newTitle) => {
+  const handleSubmit = () => {
     setShowEdit(false);
-    onEdit(id, newTitle);
   };
+  /* We still pass handleSubmit here because of closing editing after submit event, 
+  but editBookById will be passed inside bookEdit */
 
   let content = <h3>{book.title}</h3>;
   if (showEdit) {
@@ -45,7 +48,7 @@ function BookShow({ book, onDelete, onEdit }) {
   return (
     <div className="book-show">
       <img alt="books" src={`https://picsum.photos/seed/${book.id}/300/300`} />
-         
+
       <div>{content}</div>
       <div className="actions">
         <button className="delete" onClick={handleDeleteClick}>
